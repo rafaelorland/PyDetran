@@ -5,5 +5,5 @@ from pydetran.views import homePage
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homePage, name= 'homepage'),
-    path('consulta/', include('consult.urls'))
+    
 ]
