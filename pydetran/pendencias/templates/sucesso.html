@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<html>
+   <body>
+      <div class="container">
+          <div class="alert alert-success my-5">
+              <h1>Sucesso!</h1>
+              <p>{{ message }}</p>
+          </div>
+          <a href="{% url 'inserirpendencia' %}" class="btn btn-primary">Voltar para o formulário</a>
+      </div>
+  </body>
+</html>
+{% endblock content %}

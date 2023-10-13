@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <html>
+    <head>
+      <!-- Seus cabeçalhos e links para Bootstrap e outras bibliotecas aqui -->
+    </head>
+    <body>
+      <div class="container">
+        <h1>Inserir Pendência</h1>
+        <form method="post" id="pendencia-form">
+          {% csrf_token %}
+
+          <!-- Campo do Nome da Pessoa -->
+          <div class="form-group">
+            <label for="nome_pessoa">Nome da Pessoa:</label>
+            <input type="text" class="form-control" id="nome_pessoa" name="nome_pessoa" required />
+          </div>
+
+          <!-- Campo do CPF -->
+          <div class="form-group">
+            <label for="cpf">CPF:</label>
+            <input type="text" class="form-control" id="cpf" name="cpf" required />
+          </div>
+
+          <!-- Campo do Código do Processo -->
+          <div class="form-group">
+            <label for="codigo_pa">PA:</label>
+            <input type="text" class="form-control" id="codigo_pa" name="codigo_pa" required />
+          </div>
+
+          <!-- Campo da Descrição -->
+          <div class="form-group">
+            <label for="descricao">Pendência:</label>
+            <textarea class="form-control" id="descricao" name="descricao" required></textarea>
+          </div>
+
+          <br />
+
+          <button type="submit" class="btn btn-primary">Salvar Pendência</button>
+        </form>
+      </div>
+    </body>
+  </html>
+{% endblock %}
