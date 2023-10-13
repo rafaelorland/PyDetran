@@ -2,4 +2,4 @@ Scripts
 site-packages
 Include
 Lib
-pydetran\staticfiles
+**/staticfiles/
