@@ -1,34 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<html>
-   <body>
-      <br>
+  <html>
+    <body>
+      <br />
       <h1 class="mb-4">Página de Pendências</h1>
-        <div class="card">
-          <div class="card-header text-white bg-success">Estatísticas de Pendências</div>
-          <div class="card-body">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="alert alert-primary">
-                  <h4>Processos Totais</h4>
-                  <p>{{ processosTotais }}</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="alert alert-warning">
-                  <h4>Processos Pendentes</h4>
-                  <p>{{ processosPendentes }}</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                 <div class="alert alert-success">
-                    <h4>Processos Resolvidos</h4>
-                  <p>{{ processosResolvidos }}</p>
-                </div>
+      <div class="card">
+        <div class="card-header text-white bg-success">Estatísticas de Pendências</div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="alert alert-primary">
+                <h4>Processos Totais</h4>
+                <p>{{ processosTotais }}</p>
               </div>
             </div>
-         </div>
+            <div class="col-md-4">
+              <div class="alert alert-warning">
+                <h4>Processos Pendentes</h4>
+                <p>{{ processosPendentes }}</p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="alert alert-success">
+                <h4>Processos Resolvidos</h4>
+                <p>{{ processosResolvidos }}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="container my-4">
@@ -44,21 +43,13 @@
           <div class="col-md-4 mb-4">
             <div class="card">
               <div class="card-body">
-               <a href="{% url 'consultarpendencia' %}" class="card-link"><h5 class="card-title">Consultar de Pendências</h5></a>
+                <a href="{% url 'consultarpendencia' %}" class="card-link"><h5 class="card-title">Consultar de Pendências</h5></a>
                 <p class="card-text">Consulte, altere o status e apague pendências no sistema.</p>
               </div>
             </div>
           </div>
-          <div class="col-md-4 mb-4">
-            <div class="card">
-              <a href="outra_pagina.html" class="card-link"><i class="fas fa-star"></i></a>
-              <div class="card-body">
-               <a href="inserir_processo.html" class="card-link"><h5 class="card-title">Atualização de Pendências</h5></a>
-                <p class="card-text">Edite suas pendências existentes.</p>
-              </div>
-            </div>
-          </div>
         </div>
+      </div>
     </body>
   </html>
 {% endblock %}

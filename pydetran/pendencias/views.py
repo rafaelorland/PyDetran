@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
+from django.contrib import messages 
 from django.db.models import Q
 from .models import Pendencia
 import re
@@ -95,3 +97,18 @@ def mostrar_pendencia(request, pendencia_id):
       return render(request, 'page/mostrar_pendencia.html', {'pendencia': pendencia})
 
    return render(request, 'page/mostrar_pendencia.html', {'pendencia': pendencia})
+
+@login_required
+def excluir_pendencia(request, pendencia_id):
+   pendencia = get_object_or_404(Pendencia, id=pendencia_id)
+   if request.method == 'POST':
+      password = request.POST.get('password')
+      user = authenticate(request, username=request.user.username, password=password)
+      if user is not None:
+         excluirpendencia = Pendencia.objects.get(pk = pendencia_id)
+         excluirpendencia.delete()
+         return render(request, 'components/sucessoexcluir.html', {'message': 'Pendência excluída com sucesso. Ação concluída!'})
+      else:
+         messages.error(request, 'Senha incorreta!!!')
+   
+   return render(request, 'components/excluirpendencia.html', {'pendencia': pendencia})
