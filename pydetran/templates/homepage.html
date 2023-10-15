@@ -3,45 +3,51 @@
 {% block content %}
   <!DOCTYPE html>
   <html>
+    <head>
+      <style>
+        .bg-green {
+          background-color: #4caf50; /* Verde */
+        }
+        .bg-yellow {
+          background-color: #ffd700; /* Amarelo */
+        }
+        .bg-red {
+          background-color: #ff6347; /* Vermelho */
+        }
+        .text-white {
+          color: #fff; /* Texto branco */
+        }
+      </style>
+    </head>
+
     <body>
       <br />
-      <div class="card ">
-         <div class="card-header text-center">Funcionalidades</div>
+      <div class="card">
+        <div class="card-header bg-green text-white text-center">Nossas Funcionalidades Rápidas</div>
         <div class="card-body">
-          <div class="container">
-            <div class="row col-xs-12 col-sm-12 col-md-12 col-lg-12" align="center">
-              <div class="col-sm-15">
-                <div class="row">
-                  <div class="col-8 col-sm-4">
-                    <div class="card bg-light mb-3" style="max-width: 18rem;">
-                      <div class="card-header">Pendência</div>
-                      <div class="card-body">
-                        <h5 class="card-title">Inserir a pendência na gaveta.</h5>
-                        <p class="card-text">Esta é a área onde os processos que estão prestes a serem inseridos na gaveta de pendências são inicialmente reunidos e organizados.</p>
-                        <a class="btn btn-primary" href="{% url 'inserirpendencia' %}" role="button">Inserir</a>
-                        
-                      </div>
-                    </div>
+          <div class="container text-center">
+            <div class="row d-flex justify-content-center">
+              <div class="col-sm-6 col-md-6 col-lg-4">
+                <div class="card bg-light mb-3">
+                  <div class="card-header">
+                    <i class="fas fa-plus-circle"></i> Inserir Pendência
                   </div>
-                  <div class="col-8 col-sm-4">
-                    <div class="card bg-light mb-3" style="max-width: 18rem;">
-                      <div class="card-header">Pendência</div>
-                      <div class="card-body">
-                        <h5 class="card-title">Inserir a pendência na gaveta.</h5>
-                        <p class="card-text">Esta é a área onde os processos que estão prestes a serem inseridos na gaveta de pendências são inicialmente reunidos e organizados.</p>
-                        <button type="button" class="btn btn-info">Inserir</button>
-                      </div>
-                    </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Adicione uma nova pendência à gaveta.</h5>
+                    <p class="card-text">Esta funcionalidade permite que você insira novas pendências na gaveta para processamento posterior.</p>
+                    <a class="btn btn-success" href="{% url 'inserirpendencia' %}" role="button">Inserir</a>
                   </div>
-                  <div class="col-8 col-sm-4">
-                    <div class="card bg-light mb-3" style="max-width: 18rem;">
-                      <div class="card-header">Pendência</div>
-                      <div class="card-body">
-                        <h5 class="card-title">Inserir a pendência na gaveta.</h5>
-                        <p class="card-text">Esta é a área onde os processos que estão prestes a serem inseridos na gaveta de pendências são inicialmente reunidos e organizados.</p>
-                        <button type="button" class="btn btn-info">Inserir</button>
-                      </div>
-                    </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-6 col-lg-4">
+                <div class="card bg-light mb-3">
+                  <div class="card-header">
+                    <i class="fas fa-search"></i> Consultar Pendência
+                  </div>
+                  <div class="card-body">
+                    <h5 class="card-title">Consulte as pendências na gaveta.</h5>
+                    <p class="card-text">Esta funcionalidade permite que você consulte as pendências existentes na gaveta e visualize seus detalhes.</p>
+                    <a class="btn btn-warning" href="{% url 'consultarpendencia' %}" role="button">Consultar</a>
                   </div>
                 </div>
               </div>
@@ -49,7 +55,6 @@
           </div>
         </div>
       </div>
-      <br />
     </body>
   </html>
 {% endblock %}

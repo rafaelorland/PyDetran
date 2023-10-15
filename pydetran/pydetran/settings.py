@@ -70,6 +70,10 @@ TEMPLATES = [
     },
 ]
 
+LOGIN_URL = '/login/'
+
+
+
 WSGI_APPLICATION = 'pydetran.wsgi.application'
 
 

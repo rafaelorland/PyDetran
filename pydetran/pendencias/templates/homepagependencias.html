@@ -5,7 +5,6 @@
    <body>
       <br>
       <h1 class="mb-4">Página de Pendências</h1>
-       <!-- Box de Estatísticas -->
         <div class="card">
           <div class="card-header text-white bg-success">Estatísticas de Pendências</div>
           <div class="card-body">
@@ -13,19 +12,19 @@
               <div class="col-md-4">
                 <div class="alert alert-primary">
                   <h4>Processos Totais</h4>
-                  <p>100</p>
+                  <p>{{ processosTotais }}</p>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="alert alert-warning">
                   <h4>Processos Pendentes</h4>
-                  <p>30</p>
+                  <p>{{ processosPendentes }}</p>
                 </div>
               </div>
               <div class="col-md-4">
                  <div class="alert alert-success">
                     <h4>Processos Resolvidos</h4>
-                  <p>70</p>
+                  <p>{{ processosResolvidos }}</p>
                 </div>
               </div>
             </div>
@@ -45,8 +44,8 @@
           <div class="col-md-4 mb-4">
             <div class="card">
               <div class="card-body">
-               <a href="inserir_processo.html" class="card-link"><h5 class="card-title">Verificar de Pendências</h5></a>
-                <p class="card-text">Verifique a lista de todas as pendências no sistema.</p>
+               <a href="{% url 'consultarpendencia' %}" class="card-link"><h5 class="card-title">Consultar de Pendências</h5></a>
+                <p class="card-text">Consulte, altere o status e apague pendências no sistema.</p>
               </div>
             </div>
           </div>

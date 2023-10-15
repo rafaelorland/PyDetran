@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+  <html>
+    <body>
+      <div class="container">
+        <h1>Consultar Pendências</h1>
+        <form method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="search_type">Escolha o critério de pesquisa:</label>
+            <select class="form-select" name="search_type">
+              <option value="nome">Nome</option>
+              <option value="cpf">CPF</option>
+              <option value="renach">Código Renach/PA</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="search_query">Digite a consulta:</label>
+            <input type="text" class="form-control" name="search_query" />
+          </div>
+          <button type="submit" class="btn btn-primary">Pesquisar</button>
+        </form>
+        <br />
+        <div class="card">
+            <div class="card-header text-center">
+                Resultado
+              </div>
+          {% if resultados %}
+            {% for resultado in resultados %}
+              <div class="list-group">
+                <a href="{% url 'mostrar_pendencia' pendencia_id=resultado.id %}" class="list-group-item list-group-item-action flex-column align-items-start">
+                  <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ resultado.nome_pessoa }}</h5>
+                    <small class="text-muted">{{ resultado.data_de_criacao }}</small>
+                  </div>
+                  <p class="mb-1">Código Renach: {{ resultado.codigo_pa }}</p>
+                  <p class="mb-1">CPF: {{ resultado.cpf }}</p>
+                  <p class="mb-1">Descrição da Pendência: {{ resultado.descricao }}</p>
+                  {% if resultado.status == True %}
+                    <div class="alert alert-success" role="alert">Sem Pendência.</div>
+                  {% else %}
+                    <div class="alert alert-warning" role="alert">Pendente!</div>
+                  {% endif %}
+                </a>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p>Nenhum resultado encontrado.</p>
+          {% endif %}
+        </div>
+      </div>
+    </body>
+  </html>
+{% endblock %}

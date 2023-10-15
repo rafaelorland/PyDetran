@@ -12,6 +12,7 @@ class Pendencia(models.Model):
     codigo_pa = models.CharField(max_length=10, unique=True, help_text='Código único do processo')
     descricao = models.TextField(help_text='Descrição detalhada da pendência')
     status = models.BooleanField(default=False, help_text='Status da pendência (resolvida ou não)')
+    data_de_criacao = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.nome_pessoa
