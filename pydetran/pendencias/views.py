@@ -3,9 +3,9 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.db.utils import IntegrityError
+from .models import Pendencia, Historico
 from django.contrib import messages 
 from django.db.models import Q
-from .models import Pendencia
 import re
 
 @login_required
@@ -51,9 +51,11 @@ def inserirpendencia(request):
                descricao=descricao,
                status=status
          )
-         
+                 
          pendencia.save()
-         
+               
+         Historico.registrar_acao(request.user.username, nome_pessoa, 'I')
+               
          return render(request, 'components/sucesso.html', {'message': 'Pendência  com sucesso.'})
 
       except ValidationError as e:
@@ -61,9 +63,6 @@ def inserirpendencia(request):
       
       except IntegrityError as e:
          return render(request, 'components/erro.html', {'error': 'Erro de integridade de dados.'})
-      
-      except Exception as e:
-         return render(request, 'components/erro.html', {'error': 'Erro interno no servidor.'})
 
    return render(request, 'page/inserirpendencia.html')
 
@@ -94,6 +93,7 @@ def mostrar_pendencia(request, pendencia_id):
    if request.method == 'POST':
       pendencia.status = not pendencia.status
       pendencia.save()
+      Historico.registrar_acao(request.user.username, pendencia.nome_pessoa, 'S')
       return render(request, 'page/mostrar_pendencia.html', {'pendencia': pendencia})
 
    return render(request, 'page/mostrar_pendencia.html', {'pendencia': pendencia})
@@ -107,8 +107,14 @@ def excluir_pendencia(request, pendencia_id):
       if user is not None:
          excluirpendencia = Pendencia.objects.get(pk = pendencia_id)
          excluirpendencia.delete()
+         Historico.registrar_acao(request.user.username, pendencia.nome_pessoa, 'E')
          return render(request, 'components/sucessoexcluir.html', {'message': 'Pendência excluída com sucesso. Ação concluída!'})
       else:
          messages.error(request, 'Senha incorreta!!!')
    
    return render(request, 'components/excluirpendencia.html', {'pendencia': pendencia})
+
+@login_required
+def historico(request):
+    historicos = Historico.objects.all().order_by('-data_de_execucao')
+    return render(request, 'page/historico.html', {'historicos': historicos})

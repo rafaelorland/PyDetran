@@ -16,3 +16,26 @@ class Pendencia(models.Model):
 
     def __str__(self):
         return self.nome_pessoa
+
+class Historico(models.Model):
+    nome_user = models.CharField(max_length=100)
+    nome_pendencia = models.CharField(max_length=100)
+    ACOES = [
+        ("I", "Inseriu Pendência"),
+        ("S", "Troca de Status"),
+        ("E", "Excluiu a Pendência"),
+    ]
+    acao = models.CharField(max_length=1, choices=ACOES)
+    data_de_execucao = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.nome_user} realizou a ação de {self.get_acao_display()} em "{self.data_de_execucao}"'
+
+    @classmethod
+    def registrar_acao(cls, nome_user, nome_pendencia, acao):
+        historico = cls(
+            nome_user=nome_user,
+            nome_pendencia=nome_pendencia,
+            acao=acao
+        )
+        historico.save()

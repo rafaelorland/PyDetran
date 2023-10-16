@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <body>
+    <div class="container">
+      <h1>Histórico de Ação</h1>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="search_query">Digite o nome da pessoa vinculada à pendência:</label>
+          <input type="text" class="form-control" name="search_query" />
+        </div>
+        <button type="submit" class="btn btn-primary">Pesquisar</button>
+      </form>
+      <br />
+      <div class="card">
+        <div class="card-header text-center">Resultado</div>
+        {% if historicos %}
+         {% for historico in historicos %}
+            <div class="list-group">
+               <div class="d-flex w-100 justify-content-between">
+               <h5 class="mb-1
+                  {% if historico.acao == 'I' %}
+                     text-success
+                  {% elif historico.acao == 'E' %}
+                     text-danger
+                  {% elif historico.acao == 'S' %}
+                     text-warning
+                  {% endif %}
+               ">
+                  {{ historico.get_acao_display }}
+               </h5>
+               <small class="text-muted">{{ historico.data_de_execucao }}</small>
+               </div>
+
+               <p>Usuário responsável pela ação: {{ historico.nome_user }}</p>
+               <p>Nome da pessoa vinculada à pendência: {{ historico.nome_pendencia }}</p>
+            </div>
+         {% endfor %}
+         {% endif %}
+      </div>
+    </div>
+  </body>
+{% endblock %}
