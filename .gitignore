@@ -3,3 +3,4 @@ site-packages
 Include
 Lib
 **/staticfiles/
+db.sqlite3
