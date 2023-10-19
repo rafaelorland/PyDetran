@@ -1,11 +1,12 @@
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth import authenticate
+from django.shortcuts import render, get_object_or_404, HttpResponsePermanentRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
+from django.contrib.auth import authenticate
 from django.db.utils import IntegrityError
 from .models import Pendencia, Historico
 from django.contrib import messages 
-from django.db.models import Q
+from datetime import datetime
+from datetime import date
 import re
 
 @login_required
@@ -54,7 +55,7 @@ def inserirpendencia(request):
                  
          pendencia.save()
                
-         Historico.registrar_acao(request.user.username, nome_pessoa, 'I')
+         Historico.registrar_acao(request.user.username, nome_pessoa, cpf, 'I')
                
          return render(request, 'components/sucesso.html', {'message': 'Pendência  com sucesso.'})
 
@@ -90,12 +91,6 @@ def consultarpendencia(request):
 @login_required
 def mostrar_pendencia(request, pendencia_id):
    pendencia = get_object_or_404(Pendencia, id=pendencia_id)
-   if request.method == 'POST':
-      pendencia.status = not pendencia.status
-      pendencia.save()
-      Historico.registrar_acao(request.user.username, pendencia.nome_pessoa, 'S')
-      return render(request, 'page/mostrar_pendencia.html', {'pendencia': pendencia})
-
    return render(request, 'page/mostrar_pendencia.html', {'pendencia': pendencia})
 
 @login_required
@@ -107,7 +102,7 @@ def excluir_pendencia(request, pendencia_id):
       if user is not None:
          excluirpendencia = Pendencia.objects.get(pk = pendencia_id)
          excluirpendencia.delete()
-         Historico.registrar_acao(request.user.username, pendencia.nome_pessoa, 'E')
+         Historico.registrar_acao(request.user.username, pendencia.nome_pessoa, pendencia.cpf, 'E')
          return render(request, 'components/sucessoexcluir.html', {'message': 'Pendência excluída com sucesso. Ação concluída!'})
       else:
          messages.error(request, 'Senha incorreta!!!')
@@ -115,6 +110,42 @@ def excluir_pendencia(request, pendencia_id):
    return render(request, 'components/excluirpendencia.html', {'pendencia': pendencia})
 
 @login_required
+def trocar_status(request, pendencia_id):
+   pendencia = get_object_or_404(Pendencia, id=pendencia_id)
+   if request.method == 'POST':
+      password = request.POST.get('password')
+      user = authenticate(request, username=request.user.username, password=password)
+      if user is not None:
+         pendencia.status = not pendencia.status
+         pendencia.save()
+         Historico.registrar_acao(request.user.username, pendencia.nome_pessoa, pendencia.cpf, 'S')
+         return HttpResponsePermanentRedirect(f'/pendencias/pendencia/{pendencia_id}/')
+      else:
+         messages.error(request, 'Senha incorreta!!!')
+   
+   return render(request, 'components/trocarstatus.html', {'pendencia': pendencia})
+
+@login_required
 def historico(request):
-    historicos = Historico.objects.all().order_by('-data_de_execucao')
+    if request.method == 'POST':
+        dia = request.POST.get('dia')
+        mes = request.POST.get('mes')
+        ano = request.POST.get('ano')
+
+        try:
+            dia = int(dia)
+            mes = int(mes)
+            ano = int(ano)
+
+            if 1 <= mes <= 12 and 1 <= dia <= 31:
+                data_pesquisa = datetime(ano, mes, dia)
+                historicos = Historico.objects.filter(data_de_execucao__date=data_pesquisa).order_by('-data_de_execucao')
+            else:
+                return render(request, 'page/historico.html', {'error': 'Data inválida'})
+        except (ValueError, TypeError):
+            return render(request, 'page/historico.html', {'error': 'Data inválida'})
+    else:
+        data_atual = datetime.now().date()
+        historicos = Historico.objects.filter(data_de_execucao__date=data_atual).order_by('-data_de_execucao')
+
     return render(request, 'page/historico.html', {'historicos': historicos})

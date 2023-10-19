@@ -7,8 +7,8 @@
       <div class="container justify-content-center" style="width: 60%;">
         <div class="card">
           <div class="card-body">
-            <h1 class="card-title">Excluir Pendência!!!</h1>
-            <div class="alert alert-danger my-4">
+            <h1 class="card-title">Trocar Status da Pendência!!!</h1>
+            <div class="alert alert-warning my-4">
               <b>Dados da Pendência</b>
               <h5 class="card-title">ID: {{ pendencia.id }}</h5>
               <p class="card-text">Nome da Pessoa: {{ pendencia.nome_pessoa }}</p>
@@ -16,14 +16,14 @@
               <p class="card-text">CPF: {{ pendencia.cpf }}</p>
               <p class="card-text">Descrição da Pendência: {{ pendencia.descricao }}</p>
             </div>
-            <h4 class="text-center">Confirme a senha para excluir pendência</h4>
-            <form method="POST" action="{% url 'excluirpendencia' pendencia_id=pendencia.id %}">
+            <h4 class="text-center">Confirme a senha para alterar o status da pendência</h4>
+            <form method="POST" action="{% url 'trocarstatus' pendencia_id=pendencia.id %}">
               {% csrf_token %}
 
               <div class="form-group text-center">
                 <div class="container text-center" style="width: 70%;">
                   {% if messages %}
-                    <div class="alert alert-danger">
+                    <div class="alert alert-warning">
                       <ul class="list-unstyled">
                         {% for message in messages %}
                           <li>{{ message }}</li>
@@ -31,14 +31,14 @@
                       </ul>
                     </div>
                   {% endif %}
-                  <label for="password">Digite sua senha para confirmar a exclusão:</label>
+                  <label for="password">Digite sua senha para confirmar a troca de status:</label>
                   <input type="password" class="form-control" id="password" name="password" required />
                 </div>
               </div>
               <br />
-              <div class="text-center container" style="width: 50%;">
-                <button type="submit" class="btn btn-danger text-center">Excluir Objeto</button>
-                <a href="{% url 'mostrar_pendencia' pendencia_id=pendencia.id %}" class="btn btn-danger text-center">Cancelar exclusão</a>
+              <div class="text-center container" style="width: 90%;">
+                <button type="submit" class="btn btn-warning text-center">Trocar status</button>
+                <a href="{% url 'mostrar_pendencia' pendencia_id=pendencia.id %}" class="btn btn-warning text-center">Cancelar troca de status</a>
               </div>
             </form>
           </div>

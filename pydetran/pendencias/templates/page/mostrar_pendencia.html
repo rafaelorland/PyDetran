@@ -23,12 +23,7 @@
                   <button onclick="window.print();" class="btn btn-primary"><i class="fas fa-print"></i> Imprimir</button>
                   <a href="{% url 'consultarpendencia' %}" class="btn btn-secondary"><i class="fas fa-arrow-left"></i>Voltar para a página de consulta</a>
                   <a href="{% url 'excluirpendencia' pendencia_id=pendencia.id %}" class="btn btn-danger"><i class="fas fa-arrow-left"></i>Excluir pendência</a>
-                  <div class="col-12">
-                    <form method="POST">
-                      {% csrf_token %}
-                      <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Alterar status</button>
-                    </form>
-                  </div>
+                  <a href="{% url 'trocarstatus' pendencia_id=pendencia.id %}" class="btn btn-warning"><i class="fas fa-arrow-left"></i>Trocar status</a>
                 </div>
               </div>
             </div>

@@ -1,44 +1,58 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <body>
-    <div class="container">
+
+<body>
+   <div class="container">
       <h1>Histórico de Ação</h1>
       <form method="POST">
-        {% csrf_token %}
-        <div class="form-group">
-          <label for="search_query">Digite o nome da pessoa vinculada à pendência:</label>
-          <input type="text" class="form-control" name="search_query" />
-        </div>
-        <button type="submit" class="btn btn-primary">Pesquisar</button>
+         {% csrf_token %}
+         <div class="form-group">
+            <label for="search_query">Digite o data da ação vinculada à pendência:</label>
+            <div class="container row">
+               <div class="form-group" style="width: 7%;">
+                  <input placeholder="xx" type="text" maxlength="2" size="2" class="form-control" name="dia" />
+                  <label class="form-label">Dia</label>
+               </div>/<div class="form-group" style="width: 7%;">
+                  <input placeholder="xx" type="text" maxlength="2" size="2" class="form-control" name="mes" />
+                  <label class="form-label">Mês</label>
+               </div>/<div class="form-group" style="width: 8%;">
+                  <input placeholder="xxxx" type="text" maxlength="4" size="4" class="form-control" name="ano" />
+                  <label class="form-label">Ano</label>
+               </div>
+            </div>
+         </div>
+         <button type="submit" class="btn btn-primary">Pesquisar</button>
       </form>
       <br />
       <div class="card">
-        <div class="card-header text-center">Resultado</div>
-        {% if historicos %}
+         <div class="card-header text-center">Resultado</div>
+         {% if historicos %}
          {% for historico in historicos %}
-            <div class="list-group">
-               <div class="d-flex w-100 justify-content-between">
+         <div class="list-group">
+            <div class="d-flex w-100 justify-content-between">
                <h5 class="mb-1
-                  {% if historico.acao == 'I' %}
-                     text-success
-                  {% elif historico.acao == 'E' %}
-                     text-danger
-                  {% elif historico.acao == 'S' %}
-                     text-warning
-                  {% endif %}
-               ">
+               {% if historico.acao == 'I' %}
+                 text-success
+               {% elif historico.acao == 'E' %}
+                 text-danger
+               {% elif historico.acao == 'S' %}
+                 text-warning
+               {% endif %}
+             ">
                   {{ historico.get_acao_display }}
                </h5>
                <small class="text-muted">{{ historico.data_de_execucao }}</small>
-               </div>
-
-               <p>Usuário responsável pela ação: {{ historico.nome_user }}</p>
-               <p>Nome da pessoa vinculada à pendência: {{ historico.nome_pendencia }}</p>
             </div>
+
+            <p>Usuário responsável pela ação: {{ historico.nome_user }}</p>
+            <p>Dados do processo: </p>
+            <p>Nome: {{ historico.nome_pendencia }}</p>
+            <p>CPF: {{ historico.cpf }}</p>
+         </div>
          {% endfor %}
          {% endif %}
       </div>
-    </div>
-  </body>
+   </div>
+</body>
 {% endblock %}

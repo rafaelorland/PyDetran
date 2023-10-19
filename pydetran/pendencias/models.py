@@ -9,7 +9,7 @@ def validate_cpf(value):
 class Pendencia(models.Model):
     nome_pessoa = models.CharField(max_length=100, help_text='Nome da pessoa relacionada à pendência')
     cpf = models.CharField(max_length=11, validators=[validate_cpf], help_text='CPF da pessoa')
-    codigo_pa = models.CharField(max_length=10, unique=True, help_text='Código único do processo')
+    codigo_pa = models.CharField(max_length=10, help_text='Código Renach')
     descricao = models.TextField(help_text='Descrição detalhada da pendência')
     status = models.BooleanField(default=False, help_text='Status da pendência (resolvida ou não)')
     data_de_criacao = models.DateTimeField(auto_now_add=True)
@@ -20,6 +20,7 @@ class Pendencia(models.Model):
 class Historico(models.Model):
     nome_user = models.CharField(max_length=100)
     nome_pendencia = models.CharField(max_length=100)
+    cpf = models.CharField(max_length=11)
     ACOES = [
         ("I", "Inseriu Pendência"),
         ("S", "Troca de Status"),
@@ -32,10 +33,11 @@ class Historico(models.Model):
         return f'{self.nome_user} realizou a ação de {self.get_acao_display()} em "{self.data_de_execucao}"'
 
     @classmethod
-    def registrar_acao(cls, nome_user, nome_pendencia, acao):
+    def registrar_acao(cls, nome_user, nome_pendencia, cpf, acao):
         historico = cls(
             nome_user=nome_user,
             nome_pendencia=nome_pendencia,
-            acao=acao
+            cpf = cpf,
+            acao=acao,
         )
         historico.save()
